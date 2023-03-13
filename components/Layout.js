@@ -1,13 +1,18 @@
 import React from 'react';
 import Head from 'next/head';
-import { Box, Flex, Text, Stack, Button, useColorModeValue } from '@chakra-ui/react';
+import { Box, Flex, Text, Stack, Button, useColorModeValue, useColorMode, Container } from '@chakra-ui/react';
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import Link from 'next/link';
+
 
 function Layout({ children }) {
+    const { colorMode, toggleColorMode } = useColorMode();
     return (
         <div><Head><title>E-commerce App</title></Head>
             <Box>
                 <Flex
-                    bg={useColorModeValue('white', 'gray.600')}
+                    bg={useColorModeValue('white', 'gray.800')}
+                    color={useColorModeValue('gray.600', 'white')}
                     minH={'60px'}
                     py={{ base: 2 }}
                     px={{ base: 4 }}
@@ -18,40 +23,45 @@ function Layout({ children }) {
                 >
                     <Flex
                         flex={{ base: 1 }}
-                        justify={{ base: 'center', md: 'start' }}
+                        justify={{ base: 'start', md: 'start' }}
                     >
-                        <Text
-                            fontFamily={'heading'}
-                            color={useColorModeValue('gray.800', 'white')}
-                        >
-                            Logo
-                        </Text>
-                        <Stack
-                            flex={{ base: 1 }}
-                            justify={'flex-end'}
-                            direction={'row'}
-                            spacing={6}
-                        >
-                            <Button
-                                as={'a'}
-                                fontSize={'sm'}
-                                fontWeight={400}
-                                variant={'link'}
+                        <Link href={'/'} passHref>
+                            <Text
+                                fontFamily={'heading'}
+                                color={useColorModeValue('gray.800', 'white')}
                             >
-                                Sign In
-                            </Button>
-                            <Button
-                                fontSize={'sm'}
-                                fontWeight={600}
-                                color={'white'}
-                                bg={'pink.400'}
-                                href={'#'}
-                                _hover={{ bg: 'pink.300' }}
-                            >
-                                Sign Up
-                            </Button>
-                        </Stack>
+                                Logo
+                            </Text>
+                        </Link>
                     </Flex>
+                    <Stack
+                        flex={{ base: 1, md: 0 }}
+                        justify={'flex-end'}
+                        direction={'row'}
+                        spacing={6}
+                    >
+                        <Button onClick={toggleColorMode}>{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}</Button>
+                        <Button
+                            as={'a'}
+                            fontSize={'sm'}
+                            fontWeight={400}
+                            variant={'link'}
+                            href={'#'}
+                        >
+                            Sign In
+                        </Button>
+                        <Button
+                            display={{ base: 'none', md: 'inline-flex' }}
+                            fontSize={'sm'}
+                            fontWeight={600}
+                            color={'white'}
+                            bg={'pink.400'}
+                            href={'#'}
+                            _hover={{ bg: 'pink.300' }}
+                        >
+                            Sign Up
+                        </Button>
+                    </Stack>
                 </Flex>
             </Box>
             {children}
@@ -65,6 +75,7 @@ function Layout({ children }) {
                     borderStyle={'solid'}
                     borderColor={useColorModeValue('gray.200', 'gray.900')}
                     align={'center'}
+
                 >
                     <Flex
                         flex={{ base: 1 }}
