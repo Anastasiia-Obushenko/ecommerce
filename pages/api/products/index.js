@@ -10,9 +10,8 @@ router
     .get(async (req, res) => {
         await db.connect();
         const products = await Product.find({});
-        console.log(products)
         await db.disconnect(products);
-        res.send();
+        res.send(products);
     });
 
 // create a handler from router with custom

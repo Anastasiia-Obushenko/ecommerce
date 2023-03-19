@@ -2,11 +2,14 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { data } from '@/utils/data';
 import { Container, Flex, SimpleGrid, Image, Stack, Box, Heading, Button, Text, useColorModeValue } from '@chakra-ui/react';
+import db from '@/utils/db';
+import Product from '@/models/Product';
 
-function ProductPage() {
+
+function ProductPage(props) {
   const router = useRouter();
   const { id } = router.query;
-  const product = data.products.find((product) => product.id === parseInt(id));
+  const product = props;
   if (!product) {
     return <div>Product not found</div>;
   }
@@ -57,7 +60,7 @@ function ProductPage() {
               mt={8}
               size={'lg'}
               py={'7'}
-              bg={useColorModeValue('gray.900','gray.50')}
+              bg={useColorModeValue('gray.900', 'gray.50')}
               color={useColorModeValue('white', 'gray.900')}
               textTransform={'uppercase'}
             >
@@ -68,6 +71,20 @@ function ProductPage() {
       </SimpleGrid>
     </Container>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { id } = context;
+
+  await db.connect();
+  const product = await Product.findOne({ id }).lean();
+  await db.disconnect();
+
+  return {
+    props: { product: db.convertDocToObj(product) }
+  };
+
 }
 
 export default ProductPage;
