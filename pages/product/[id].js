@@ -9,7 +9,7 @@ import Product from '@/models/Product';
 function ProductPage(props) {
   const router = useRouter();
   const { id } = router.query;
-  const product = props;
+  const {product} = props;
   if (!product) {
     return <div>Product not found</div>;
   }
@@ -75,7 +75,7 @@ function ProductPage(props) {
 
 export async function getServerSideProps(context) {
   const { params } = context;
-  const { id } = context;
+  const { id } = params;
 
   await db.connect();
   const product = await Product.findOne({ id }).lean();
