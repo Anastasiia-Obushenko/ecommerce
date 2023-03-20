@@ -1,7 +1,7 @@
 import Layout from '@/components/Layout';
 import '@/styles/globals.css';
 import { ChakraProvider } from '@chakra-ui/react';
-import { CartProvider } from '@/context/Cart';
+import { CartProvider } from '@/context/CartContext';
 
 export default function App({ Component, pageProps }) {
   return (
