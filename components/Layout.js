@@ -42,7 +42,9 @@ function Layout({ children }) {
                         spacing={6}
                     >
                         <Button onClick={toggleColorMode}>{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}</Button>
-                        <CartIcon />
+                        <Link href='/cart' passHref>
+                            <CartIcon />
+                        </Link>
                         <Button
                             as={'a'}
                             fontSize={'sm'}
