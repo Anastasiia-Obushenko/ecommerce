@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { Box, Flex, Text, Stack, Button, useColorModeValue, useColorMode, Container } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
+import CartIcon from './Carticon';
 
 
 function Layout({ children }) {
@@ -41,6 +42,7 @@ function Layout({ children }) {
                         spacing={6}
                     >
                         <Button onClick={toggleColorMode}>{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}</Button>
+                        <CartIcon />
                         <Button
                             as={'a'}
                             fontSize={'sm'}
