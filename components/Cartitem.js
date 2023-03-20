@@ -17,7 +17,7 @@ const CartItem = ({ item }) => {
             >
                 <Image
                     src={`/images${item.image}`}
-                    alt={image.title}
+                    alt={item.title}
                     width='120px'
                     height="120px"
                     loading='lazy'
