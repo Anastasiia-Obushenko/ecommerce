@@ -25,7 +25,7 @@ const CartItem = ({ item }) => {
                 <Box pt='4'>
                     <Stack spacing='0.5'>
                         <Text fontWeight='medium'>{item.title}</Text>
-                        <Text fontSize='sm' color={useColorModeValue('gray.600', 'gray.400')}></Text>
+                        <Text fontSize='sm' color={useColorModeValue('gray.600', 'gray.400')}>{item.description}</Text>
                     </Stack>
                 </Box>
             </Stack>
