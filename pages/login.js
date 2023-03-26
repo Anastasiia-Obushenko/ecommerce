@@ -1,6 +1,12 @@
-import { Box, Button, Container, FormControl, FormLabel, Heading, HStack, Input, Stack, useBreakpointValue, useColorModeValue, Text } from '@chakra-ui/react';
+import { Box, Button, Container, FormControl, FormLabel, Heading, HStack, Input, Stack, useBreakpointValue, useColorModeValue, Text, FormHelperText } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import * as yup from 'yup';
+
+const loginSchema = yup.object().shape({
+    email: yup.string().email('Invalid email').required('Email is required'),
+    password: yup.string().min(8, 'Password must be at least 8 characters').required('Password is required')
+});
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -8,8 +14,27 @@ function LoginPage() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // form validation
+        try {
+            await loginSchema.validate({
+                email,
+                password
+            }, {
+                abortEarly: false
+            });
+        } catch (error) {
+            const validationErrors = {};
+            if (error instanceof yup.ValidationError) {
+                error.inner.forEach(({path, message}) => {
+                    validationErrors[path] = message;
+                });
+            }
+            setError(validationErrors);
+            return;
+        }
 
         setEmail('');
         setPassword('');
@@ -46,10 +71,12 @@ function LoginPage() {
                             <FormControl>
                                 <FormLabel htmlFor='email'>Email address</FormLabel>
                                 <Input id='email' type='email' onChange={(e) => setEmail(e.target.value)}></Input>
+                                <FormHelperText color={'red.500'} id='email-helper-text'>{error.email}</FormHelperText>
                             </FormControl>
                             <FormControl>
                                 <FormLabel htmlFor='password'>Password</FormLabel>
                                 <Input id='password' type='password' onChange={(e) => setPassword(e.target.value)}></Input>
+                                <FormHelperText color={'red.500'} id='password-helper-text'>{error.password}</FormHelperText>
                             </FormControl>
                             <HStack justify='space-between'>
                                 <Button variant='link' colorScheme='pink' size='sm'>
